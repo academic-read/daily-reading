@@ -17,7 +17,7 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
-from structure import Structure
+from structure import BSchoolPaperStructure as Structure
 
 if os.path.exists('.env'):
     dotenv.load_dotenv()
@@ -36,7 +36,7 @@ def process_single_item(chain, item: Dict, language: str) -> Dict:
     try:
         response: Structure = chain.invoke({
             "language": language,
-            "content": item['summary']
+            "content": item['detail']['abstract'],
         })
         item['AI'] = response.model_dump()
     except langchain_core.exceptions.OutputParserException as e:
@@ -105,6 +105,8 @@ def process_all_items(data: List[Dict], model_name: str, language: str, max_work
 
 def main():
     args = parse_args()
+    # args.data = '../data/2025-07-26.jsonl'  # 替换为实际数据文件路径
+
     model_name = os.environ.get("MODEL_NAME", 'deepseek-chat')
     language = os.environ.get("LANGUAGE", 'Chinese')
 
@@ -116,7 +118,7 @@ def main():
 
     # 读取数据
     data = []
-    with open(args.data, "r") as f:
+    with open(args.data, "r", encoding='utf-8') as f:
         for line in f:
             data.append(json.loads(line))
 
@@ -145,4 +147,14 @@ def main():
             f.write(json.dumps(item) + "\n")
 
 if __name__ == "__main__":
+    # language = 'Chinese'
+    # model_name = 'deepseek-chat'
+    # openai_api_key = 'None'
+    # openai_base_url = 'https://api.deepseek.com'
+    #
+    # os.environ["OPENAI_API_KEY"] = openai_api_key
+    # os.environ["OPENAI_API_BASE"] = openai_base_url
+    # os.environ["MODEL_NAME"] = model_name
+    # os.environ["LANGUAGE"] = language
+
     main()
