@@ -26,7 +26,7 @@ jobs:
       run: |
         source .venv/bin/activate
         # today=$(date -u "+%Y-%m-%d")
-        today="2025-07-27"
+        today="2025-07-26"
         echo "开始爬取 $today 的SSRN论文... / Starting to crawl $today SSRN papers..."
         
         # 检查今日文件是否已存在，如存在则删除 / Check if today's file exists, delete if found
