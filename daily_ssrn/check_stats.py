@@ -191,6 +191,7 @@ def main():
     2: 处理错误 / Processing error
     """
     date = datetime.now().strftime("%Y-%m-%d")
+    date = '2025-07-27'
 
     # 合并今日论文条目 / Merge today's paper entries
     print("正在执行今日论文条目合并... / Performing today's paper entries merge...", file=sys.stderr)
