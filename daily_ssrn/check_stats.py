@@ -13,6 +13,7 @@ import sys
 import os
 import copy
 from datetime import datetime, timedelta
+import argparse
 
 
 def load_papers_data(file_path):
@@ -180,6 +181,13 @@ def perform_merge(date):
         return "error"
 
 
+def parse_args():
+    """解析命令行参数"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", type=str, required=True, help="jsonline data file")
+    return parser.parse_args()
+
+
 def main():
     """
     检查去重状态并返回相应的退出码
@@ -190,8 +198,8 @@ def main():
     1: 无新内容，停止工作流 / No new content, stop workflow
     2: 处理错误 / Processing error
     """
-    date = datetime.now().strftime("%Y-%m-%d")
-    date = '2025-07-27'
+    # date = datetime.now().strftime("%Y-%m-%d")
+    date = parse_args().date
 
     # 合并今日论文条目 / Merge today's paper entries
     print("正在执行今日论文条目合并... / Performing today's paper entries merge...", file=sys.stderr)

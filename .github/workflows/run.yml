@@ -47,7 +47,7 @@ jobs:
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
-        scrapy crawl ssrn -o ../data/${today}.jsonl -a DATE=$today
+        scrapy crawl ssrn -o ../data/${today}.jsonl -a DATE="$today" -a CATEGORIES="$CATEGORIES"
         
         # 检查爬取是否成功 / Check if crawling was successful
         if [ ! -f "../data/${today}.jsonl" ]; then
@@ -61,13 +61,14 @@ jobs:
     - name: Check for duplicates
       id: dedup_check
       run: |
+        today=${{ steps.crawl_step.outputs.crawl_date }}
         source .venv/bin/activate
         echo "执行去重检查... / Performing intelligent deduplication check..."
         
         cd daily_ssrn
         # 执行去重检查脚本 / Execute intelligent deduplication check script
         set +e  # 暂时允许命令失败 / Temporarily allow command failure
-        python check_stats.py
+        python check_stats.py --date="$today"
         
         # 获取退出码 / Get exit code
         dedup_exit_code=$?
