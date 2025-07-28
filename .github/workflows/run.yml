@@ -5,7 +5,7 @@ name: arXiv-daily-ai-enhanced
 
 on:
   schedule:
-    - cron: "30 16 * * *"
+    - cron: "15 0 * * *"
   workflow_dispatch:
 
 
@@ -25,8 +25,8 @@ jobs:
       id: crawl_step
       run: |
         source .venv/bin/activate
-        # today=$(date -u "+%Y-%m-%d")
-        today="2025-07-26"
+        # today=$(date -u -d "yesterday" "+%Y-%m-%d")
+        # today="2025-07-26"
         echo "开始爬取 $today 的SSRN论文... / Starting to crawl $today SSRN papers..."
         
         # 检查今日文件是否已存在，如存在则删除 / Check if today's file exists, delete if found
