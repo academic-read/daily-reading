@@ -47,7 +47,7 @@ jobs:
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
-        scrapy crawl ssrn -o ../data/${today}.jsonl
+        scrapy crawl ssrn -o ../data/${today}.jsonl -a DATE=$today
         
         # 检查爬取是否成功 / Check if crawling was successful
         if [ ! -f "../data/${today}.jsonl" ]; then
