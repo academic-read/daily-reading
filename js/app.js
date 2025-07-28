@@ -561,11 +561,11 @@ function parseJsonlData(jsonlText, date) {
     try {
       const paper = JSON.parse(line);
       
-      if (!paper.categories) {
+      if (!paper.category) {
         return;
       }
       
-      let allCategories = Array.isArray(paper.categories) ? paper.categories : [paper.categories];
+      let allCategories = Array.isArray(paper.category) ? paper.category : [paper.category];
       
       const primaryCategory = allCategories[0];
       
@@ -573,21 +573,26 @@ function parseJsonlData(jsonlText, date) {
         result[primaryCategory] = [];
       }
       
-      const summary = paper.AI && paper.AI.tldr ? paper.AI.tldr : paper.summary;
+      const summary = paper.AI && paper.AI.tldr ? paper.AI.tldr : paper.detail.abstract;
+      const authorHtml = paper.authors?.authors?.map(
+          a => `<a href="${a.url}" target="_blank">${a.first_name} ${a.last_name}</a>`).join(', ');
+
       
       result[primaryCategory].push({
-        title: paper.title,
-        url: paper.abs || paper.pdf || `https://arxiv.org/abs/${paper.id}`,
-        authors: Array.isArray(paper.authors) ? paper.authors.join(', ') : paper.authors,
+        title: paper.detail.title,
+        url: paper.url || `https://papers.ssrn.com/sol3/papers.cfm?abstract_id=${paper.id}`,
+        authors: authorHtml || paper.authors?.authors?.map(a => `${a.first_name} ${a.last_name}`).join(', ') || 'Unknown',
         category: allCategories,
         summary: summary,
-        details: paper.summary || '',
+        details: paper.detail.abstract || '',
         date: date,
         id: paper.id,
         motivation: paper.AI && paper.AI.motivation ? paper.AI.motivation : '',
         method: paper.AI && paper.AI.method ? paper.AI.method : '',
-        result: paper.AI && paper.AI.result ? paper.AI.result : '',
-        conclusion: paper.AI && paper.AI.conclusion ? paper.AI.conclusion : ''
+        result: paper.AI && paper.AI.findings ? paper.AI.findings : '',
+        practical: paper.AI && paper.AI.practical_contributions ? paper.AI.practical_contributions : '',
+        theoretical: paper.AI && paper.AI.theory_contributions ? paper.AI.theory_contributions : '',
+        framework: paper.AI && paper.AI.theoretical_framework ? paper.AI.theoretical_framework : '',
       });
     } catch (error) {
       console.error('解析JSON行失败:', error, line);
