@@ -905,9 +905,17 @@ function showPaperDetails(paper, paperIndex) {
     ? highlightMatches(paper.result, activeKeywords, 'keyword-highlight') 
     : paper.result;
   
-  const highlightedConclusion = paper.conclusion && activeKeywords.length > 0 
-    ? highlightMatches(paper.conclusion, activeKeywords, 'keyword-highlight') 
-    : paper.conclusion;
+  const highlightedPractical = paper.practical && activeKeywords.length > 0
+    ? highlightMatches(paper.practical, activeKeywords, 'keyword-highlight')
+    : paper.practical;
+
+  const highlightedTheoretical = paper.theoretical && activeKeywords.length > 0
+    ? highlightMatches(paper.theoretical, activeKeywords, 'keyword-highlight')
+    : paper.theoretical;
+
+  const highlightedFramework = paper.framework && activeKeywords.length > 0
+    ? highlightMatches(paper.framework, activeKeywords, 'keyword-highlight')
+    : paper.framework;
   
   // 判断是否需要显示高亮说明
   const showHighlightLegend = activeKeywords.length > 0 || activeAuthors.length > 0;
@@ -929,7 +937,9 @@ function showPaperDetails(paper, paperIndex) {
         ${paper.motivation ? `<div class="paper-section"><h4>Motivation</h4><p>${highlightedMotivation}</p></div>` : ''}
         ${paper.method ? `<div class="paper-section"><h4>Method</h4><p>${highlightedMethod}</p></div>` : ''}
         ${paper.result ? `<div class="paper-section"><h4>Result</h4><p>${highlightedResult}</p></div>` : ''}
-        ${paper.conclusion ? `<div class="paper-section"><h4>Conclusion</h4><p>${highlightedConclusion}</p></div>` : ''}
+        ${paper.framework ? `<div class="paper-section"><h4>Key Theories</h4><p>${highlightedFramework}</p></div>` : ''}
+        ${paper.practical ? `<div class="paper-section"><h4>Practical Contributions</h4><p>${highlightedPractical}</p></div>` : ''}
+        ${paper.theoretical ? `<div class="paper-section"><h4>Theoretical Contributions</h4><p>${highlightedTheoretical}</p></div>` : ''}
       </div>
       
       ${highlightedAbstract ? `<h3>Abstract</h3><p class="original-abstract">${highlightedAbstract}</p>` : ''}
@@ -947,7 +957,7 @@ function showPaperDetails(paper, paperIndex) {
           </button>
         </div>
         <div class="pdf-container">
-          <iframe src="${paper.url.replace('abs', 'pdf')}" width="100%" height="800px" frameborder="0"></iframe>
+          <iframe src="${paper.url}" width="100%" height="800px" frameborder="0"></iframe>
         </div>
       </div>
     </div>
@@ -959,7 +969,7 @@ function showPaperDetails(paper, paperIndex) {
   document.getElementById('pdfLink').href = paper.url.replace('abs', 'pdf');
   document.getElementById('htmlLink').href = paper.url.replace('abs', 'html');
   // 提示词来自：https://papers.cool/
-  prompt = `请你阅读这篇文章${paper.url.replace('abs', 'pdf')},总结一下这篇文章解决的问题、相关工作、研究方法、做了什么实验及其结果、结论，最后整体总结一下这篇文章的内容`
+  prompt = `请你阅读这篇文章${paper.url},总结一下这篇文章解决的问题、相关工作、研究方法、做了什么实验及其结果、结论，最后整体总结一下这篇文章的内容`
   document.getElementById('kimiChatLink').href = `https://www.kimi.com/_prefill_chat?prefill_prompt=${prompt}&system_prompt=你是一个学术助手，后面的对话将围绕着以下论文内容进行，已经通过链接给出了论文的PDF和论文已有的FAQ。用户将继续向你咨询论文的相关问题，请你作出专业的回答，不要出现第一人称，当涉及到分点回答时，鼓励你以markdown格式输出。&send_immediately=true&force_search=false`;
   
   // 更新论文位置信息
