@@ -957,7 +957,7 @@ function showPaperDetails(paper, paperIndex) {
           </button>
         </div>
         <div class="pdf-container">
-          <iframe src="${paper.url}" width="100%" height="800px" frameborder="0" sandbox="allow-scripts allow-same-origin"></iframe>
+          <iframe src="${paper.url}" width="100%" height="800px" frameborder="0" sandbox="allow-same-origin"></iframe>
         </div>
       </div>
     </div>
