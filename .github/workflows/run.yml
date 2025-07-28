@@ -25,7 +25,7 @@ jobs:
       id: crawl_step
       run: |
         source .venv/bin/activate
-#        today=$(date -u "+%Y-%m-%d")
+        # today=$(date -u "+%Y-%m-%d")
         today="2025-07-27"
         echo "开始爬取 $today 的SSRN论文... / Starting to crawl $today SSRN papers..."
         
